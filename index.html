@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#19503b" />
+  <meta name="description" content=".theMeal — Bản demo tủ lạnh thông minh, kế hoạch dinh dưỡng, nhật ký và chuyên gia." />
+  <title>.theMeal | Không gian sức khỏe</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+CiAgPHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTgiIGZpbGw9IiNkM2U5ZDUiLz4KICA8cGF0aCBkPSJNMTIgNDRWMjdjMC03IDUtMTIgMTItMTIgNSAwIDkgMiAxMiA2IDMtNCA3LTYgMTItNiA3IDAgMTIgNSAxMiAxMnYxN0g0OVYyOWMwLTMtMS01LTQtNXMtNCAyLTQgNXYxNUgzMFYyOWMwLTMtMS01LTQtNXMtNCAyLTQgNXYxNVoiIGZpbGw9IiMxNjRiMzYiLz4KICA8Y2lyY2xlIGN4PSI1NyIgY3k9IjUwIiByPSI0IiBmaWxsPSIjMTY0YjM2Ii8+Cjwvc3ZnPgo=" type="image/svg+xml" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <section id="authScreen" class="auth-screen">
+    <div class="auth-card">
+      <div class="auth-brand">
+        <span class="wordmark" aria-label=".theMeal">.the<span class="wordmark-m">M</span>eal</span>
+      </div>
+      <div class="auth-copy">
+        <span class="eyebrow">.theMeal</span>
+        <h1>Chào mừng bạn trở lại!</h1>
+        <p>Không gian sức khỏe .theMeal: quản lý tủ lạnh, thực đơn, danh sách mua sắm và không gian trao đổi với chuyên gia.</p>
+      </div>
+      <form id="loginForm" class="auth-form">
+        <div class="auth-form-head"><span class="eyebrow">TÀI KHOẢN CỦA BẠN</span><h2>Đăng nhập</h2><p>Nhập thông tin tài khoản để tiếp tục.</p></div>
+        <div class="field">
+          <label>Tài khoản</label>
+          <input name="username" placeholder="Nhập tên đăng nhập" required />
+        </div>
+        <div class="field">
+          <label>Mật khẩu</label>
+          <input name="password" type="password" placeholder="Nhập mật khẩu" required />
+        </div>
+        <div class="auth-actions"><button class="btn" type="submit">Đăng nhập</button><button class="btn secondary" type="button" data-action="register-open">Tạo tài khoản mới</button></div>
+        <p id="loginError" class="auth-error"></p>
+      </form>
+      <form id="registerForm" class="auth-form auth-extra" hidden>
+        <div class="auth-form-head"><span class="eyebrow">ĐĂNG KÝ .theMeal</span><h2>Tạo tài khoản</h2><p>Có thể bỏ qua thông tin chưa sẵn sàng. Nhập mã OTP bất kỳ để kiểm tra quy trình đăng ký. Hiện chưa gửi SMS/email thật.</p></div>
+        <div class="field"><label>Phương thức đăng ký</label><select name="method" id="registerMethod"><option value="email">Email</option><option value="phone">Số điện thoại</option><option value="google">Google (chưa kết nối)</option></select></div>
+        <div class="field"><label id="registerContactLabel">Email</label><input id="registerContact" name="contact" inputmode="email" type="email" placeholder="ten@example.com"></div>
+        <div id="registerOtpSection" class="field"><label>Mã xác nhận</label>
+          <div class="otp-row"><input name="otp" id="registerOtpInput" inputmode="numeric" maxlength="12" placeholder="Nhập mã bất kỳ" autocomplete="one-time-code"><button class="btn secondary" type="button" data-action="send-otp">Gửi mã OTP</button></div>
+          <p class="tiny" id="registerOtpNotice" aria-live="polite">Mã OTP thử nghiệm: nhập bất kỳ mã nào để tiếp tục. Không gửi SMS hoặc email thật.</p></div>
+        <div class="field"><label>Họ và tên (tùy chọn)</label><input name="fullName" maxlength="80" autocomplete="name"></div>
+        <div class="field"><label>Ngày sinh (tùy chọn)</label><input name="dob" type="date"></div>
+        <div class="field"><label>Mật khẩu</label><input type="password" id="registerPasswordV11" name="password" minlength="4" maxlength="80" autocomplete="new-password" required></div><div class="field"><label>Nhập lại mật khẩu</label><input type="password" name="passwordConfirm" minlength="4" maxlength="80" autocomplete="new-password" required></div>
+        <p class="tiny">Tài khoản demo chỉ dùng dữ liệu giả định, không dùng mật khẩu thật.</p>
+        <div class="auth-actions"><button class="btn" type="submit">Tạo tài khoản</button><button class="btn secondary" type="button" data-action="register-back">Quay lại đăng nhập</button></div>
+        <p id="registerError" class="auth-error"></p>
+      </form>
+      <form id="onboardingForm" class="auth-form auth-extra" hidden>
+        <div class="auth-form-head"><span class="eyebrow">BƯỚC 2/2</span><h2>Hồ sơ sức khỏe ban đầu</h2><p>Thông tin sức khỏe có thể bỏ qua và bổ sung sau.</p><p id="newAccountCredentials" class="new-account-note"></p></div>
+        <div class="form-grid"><div class="field"><label>Chiều cao (cm)</label><input name="height" type="number" min="70" max="240" step="0.1"></div><div class="field"><label>Cân nặng (kg)</label><input name="weight" type="number" min="10" max="350" step="0.1"></div></div>
+        <div class="field"><label>Mục tiêu sức khỏe</label><select name="goal"><option>Giữ cân</option><option>Giảm cân</option><option>Tăng cơ</option><option>Cải thiện sức bền</option></select></div>
+        <div class="field"><label>Mục tiêu cụ thể</label><input name="target" maxlength="110" placeholder="Ví dụ: chạy 3 km, giảm 3 kg..."></div>
+        <div class="field"><label>Thời hạn mong muốn (không bắt buộc)</label><input type="date" name="targetDate"></div>
+        <div class="auth-actions"><button class="btn" type="submit">Hoàn tất hồ sơ và vào trang chủ</button></div>
+      </form>
+    </div>
+  </section>
+
+  <div class="app">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#overview">
+        <span class="wordmark wordmark-sidebar" aria-label=".theMeal">.the<span class="wordmark-m">M</span>eal</span>
+        <span class="brand-icon-mobile" aria-hidden="true">.M</span>
+      </a>
+      <div class="sidebar-label">KHÔNG GIAN LÀM VIỆC</div>
+      <div class="sidebar-scroll">
+      <nav class="nav" id="nav">
+        <button class="active" data-page="overview"><span>▦</span> Tổng quan</button>
+        <button data-page="fridge"><span>▤</span> Tủ lạnh thông minh <em id="fridgeCount"></em></button>
+        <button data-page="recipes"><span>♧</span> Gợi ý thực đơn</button>
+        <button data-page="miu"><span>✦</span> AI Miu gợi ý món</button>
+        
+        
+        <button data-page="plans"><span>▤</span> Kế hoạch của tôi</button>
+        <button data-page="diary"><span>▦</span> Nhật ký sức khỏe</button>
+        <button data-page="workouts"><span>♧</span> Rèn luyện sức khỏe</button>
+        <button data-page="devices"><span class="watch-icon-v12">⌚</span> Thiết bị kết nối</button>
+        <button data-page="messages"><span>◉</span> Trò chuyện <em id="messageCount"></em></button>
+        <button data-page="support"><span>☏</span> CSKH hệ thống <em id="supportCountV11"></em></button>
+        <button data-page="payments"><span>▤</span> Thanh toán & lịch sử</button>
+        <div class="nav-divider"></div>
+        <button data-page="experts"><span>◈</span> Chuyên gia &amp; khóa học</button>
+        <button data-page="community"><span>♡</span> Cộng đồng</button>
+        <button data-page="settings"><span>⚙</span> Cài đặt cá nhân</button>
+        <button class="admin-only" data-action="admin-collapse"><span>▣</span> Trang quản trị <em>▾</em></button>
+        <div class="admin-submenu admin-only">
+          <button data-page="admin-experts">Duyệt chuyên gia</button>
+          <button data-page="admin-posts">Kiểm duyệt bài viết</button>
+          <button data-page="admin-comments">Kiểm duyệt bình luận</button>
+          <button data-page="admin-courses">Quản lý khóa học</button>
+          <button data-page="admin-recipes">Quản lý công thức</button>
+          <button data-page="admin-contracts">Quản lý hợp đồng</button>
+          <button data-page="admin-support">CSKH & phản hồi</button>
+        </div>
+        <button class="admin-only" data-page="admin-users"><span>◉</span> Hồ sơ người dùng</button>
+        <button class="admin-only" data-action="revenue-parent"><span>▤</span> Quản lý doanh thu <em>▾</em></button>
+        <div class="admin-submenu revenue-submenu admin-only">
+          <button data-page="admin-revenue-posting">Phí đăng ký khóa</button>
+          <button data-page="admin-revenue-enroll">Chiết khấu đăng ký</button>
+          <button data-page="admin-revenue-premium">Doanh thu Premium</button>
+          <button data-page="admin-revenue-total">Tổng doanh thu</button>
+        </div>
+        <button class="admin-only admin-logout-nav" type="button" data-action="logout"><span>⇥</span> Đăng xuất</button>
+      </nav>
+      </div>
+      <div class="sidebar-bottom">
+        <button class="upgrade" id="upgradeBtn" type="button">
+          <span>✦ .theMeal Premium</span>
+          <h3>Nâng cấp gói sử dụng</h3>
+          <p>Chọn Free hoặc Premium để phù hợp với nhu cầu quản lý nguyên liệu.</p>
+          <div class="upgrade-cta">Chọn gói →</div>
+        </button>
+        <p class="fine">.theMeal · SỨC KHỎE THÔNG MINH</p>
+      </div>
+    </aside>
+
+    <div class="main-wrap">
+      <header class="topbar">
+        <button class="icon-btn menu-btn" id="menuBtn" aria-label="Mở menu">☰</button>
+        <div class="breadcrumbs">
+          <span>.theMeal</span>
+          <span class="slash">/</span>
+          
+          <strong id="crumb">Tổng quan</strong>
+        </div>
+        <div class="top-actions">
+          
+          <span class="today" id="today"></span>
+          <button class="notification icon-btn" id="notificationsBtn" title="Thông báo">♧<i id="noticeDot"></i></button>
+          <button class="user-chip" id="avatarBtn" title="Hồ sơ cá nhân">
+            <img id="topAvatarImage" src="assets/avatar-default.svg" alt="Ảnh đại diện" />
+            <span>
+              <strong id="userChipName">Jessica</strong>
+              <small id="userChipRole">Thành viên</small>
+            </span>
+          </button>
+        </div>
+      </header>
+      <main id="view"></main>
+      <footer>.theMeal · Không gian sức khỏe</footer>
+    </div>
+  </div>
+
+  <nav class="mobile-nav" aria-label="Điều hướng nhanh">
+    <button class="active" data-page="overview"><span>⌂</span> Tổng quan</button>
+    <button data-page="fridge"><span>🧊</span> Tủ lạnh</button>
+    <button data-page="miu"><span>✦</span> AI Miu</button>
+    <button data-page="recipes"><span>🍽️</span> Thực đơn</button>
+    <button data-page="plans"><span>📅</span> Kế hoạch</button>
+    <button data-page="diary"><span>📝</span> Nhật ký</button>
+    <button class="admin-only" data-page="admin"><span>▣</span> Quản trị</button>
+  </nav>
+
+  <div class="overlay" id="overlay"></div>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <script defer src="app.js"></script>
+</body>
+</html>
